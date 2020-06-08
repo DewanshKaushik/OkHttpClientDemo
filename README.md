@@ -8,5 +8,5 @@ Basic Networking code like :-
 6. Picasso,
 7. Fresco,
 8. Gson,
-9. RxJava
+9. RxJava,
 10.Karumi Dexter.
