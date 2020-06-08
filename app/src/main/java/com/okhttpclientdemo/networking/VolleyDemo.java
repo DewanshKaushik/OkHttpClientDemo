@@ -10,17 +10,23 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.okhttpclientdemo.App;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Volley {
+public class VolleyDemo {
 
+    String url = "";
+    Context context;
 
     private void postRequest(Context context) {
-        RequestQueue requestQueue = com.android.volley.toolbox.Volley.newRequestQueue(context);
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         JsonObjectRequest arrayreq = new JsonObjectRequest(com.android.volley.Request.Method.POST, "http://139.59.32.104/api/saas/data/fees/edit", getJsonArray(),
                 new com.android.volley.Response.Listener<JSONObject>() {
@@ -30,7 +36,6 @@ public class Volley {
 
                         if (response != null) {
                             Log.e("Volley", response.toString());
-                            textView.setText(response.toString());
                         }
                     }
                 },
@@ -68,13 +73,13 @@ public class Volley {
                     @Override
                     public void onResponse(JSONObject response) {
                         // display response
-                        Log.d("Response", response.toString());
+                        Log.e("Response", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("Error.Response", response);
+                        Log.e("Error.Response", error.toString());
                     }
                 }
         );
@@ -84,20 +89,19 @@ public class Volley {
     }
 
     public void putRequest() {
-        url = "http://httpbin.org/put";
         StringRequest putRequest = new StringRequest(Request.Method.PUT, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Log.d("Response", response);
+                        Log.e("Response", response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // error
-                        Log.d("Error.Response", response);
+                        Log.e("Error.Response", error.toString());
                     }
                 }
         ) {
@@ -113,7 +117,7 @@ public class Volley {
 
         };
 
-        queue.add(putRequest);
+        App.getInstance().requestQueue.add(putRequest);
     }
 
     public void deleteRequest() {
@@ -123,18 +127,56 @@ public class Volley {
                     @Override
                     public void onResponse(String response) {
                         // response
-                        Toast.makeText(this, response, Toast.LENGTH_LONG).show();
+                        Log.e("deleteRequest",response.toString());
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // error.
-
+                        Log.e("deleteRequest",error.toString());
                     }
                 }
         );
-        queue.add(dr);
+        App.getInstance().requestQueue.add(dr);
+    }
+
+
+    private JSONObject getJsonArray() {
+        JSONArray jsonArray = new JSONArray();
+
+        JSONObject jsonObject3 = new JSONObject();
+        try {
+            JSONObject jsonObject1 = new JSONObject();
+
+            jsonObject1.put("fee_id", 74);
+            jsonObject1.put("monthly", 100);
+            jsonObject1.put("quarterly", 300);
+            jsonObject1.put("half_yearly", 600);
+            jsonObject1.put("yearly", 1200);
+            jsonObject1.put("category_name", "Advanced high");
+
+
+            jsonArray.put(jsonObject1);
+
+            JSONObject jsonObject2 = new JSONObject();
+
+            jsonObject2.put("fee_id", 85);
+            jsonObject2.put("monthly", 100);
+            jsonObject2.put("quarterly", 300);
+            jsonObject2.put("half_yearly", 600);
+            jsonObject2.put("yearly", 1200);
+            jsonObject2.put("category_name", "Royal high");
+
+
+            jsonArray.put(jsonObject2);
+
+            jsonObject3.put("payload", jsonArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonObject3;
     }
 
 }

@@ -1,5 +1,12 @@
 package com.okhttpclientdemo.ImageProcessing;
 
+import android.content.Context;
+import android.net.Uri;
+import android.view.View;
+import android.widget.ImageView;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.okhttpclientdemo.R;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -35,19 +42,10 @@ import com.facebook.imagepipeline.core.ImagePipeline;
     fresco:roundingBorderColor="@color/border_color" />
 * */
 
-public class Fresco {
+public class FrescoDemo {
 
 
-    public void getImage() {
-        Fresco.initialize(context);
+    public void getImage(Context context, ImageView imageView) {
 
-        Fresco.newBuilder((SimpleDraweeView) findViewById(R.id.my_image_view))
-                .setPlaceholderImage(R.color.grey200)
-                .withProgressBar(true)
-                .roundAsCircle(true)
-                .setProgressBarColor(R.color.colorAccent, R.color.grey500)
-                .setRoundCircleColor(R.color.colorAccent)
-                .setUri(Uri.parse("image link"))
-                .build(this);
     }
 }

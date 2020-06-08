@@ -1,5 +1,20 @@
 package com.okhttpclientdemo.networking;
 
+//  Url :- https://github.com/amitshekhariitbhu/Fast-Android-Networking
+
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.okhttpclientdemo.models.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+
 public class FastAndroidNetworking {
 
 
@@ -98,7 +113,7 @@ public class FastAndroidNetworking {
                 });
 
         AndroidNetworking.post("https://fierce-cove-29863.herokuapp.com/postFile")
-                .addFileBody(file) // posting any type of file
+                .addFileBody(new File("")) // posting any type of file
                 .setTag("test")
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -115,4 +130,5 @@ public class FastAndroidNetworking {
                 });
 
     }
+
 }

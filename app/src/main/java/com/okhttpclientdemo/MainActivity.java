@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.okhttpclientdemo.activities.BaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,7 +21,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+//  https://github.com/Karumi/Dexter
+public class MainActivity extends BaseActivity {
 
     TextView textView;
 
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textView = findViewById(R.id.textview);
+
+
 
         new Thread(new Runnable() {
             @Override
