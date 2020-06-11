@@ -1,7 +1,8 @@
-package com.okhttpclientdemo;
+package com.okhttpclientdemo.activities.mainactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -12,14 +13,35 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.okhttpclientdemo.R;
+import com.okhttpclientdemo.Room.LocalUserDataSource;
+import com.okhttpclientdemo.Room.UserDao;
+import com.okhttpclientdemo.UserDataSource;
 import com.okhttpclientdemo.activities.BaseActivity;
+import com.okhttpclientdemo.models.Injection;
+import com.okhttpclientdemo.models.User;
+import com.okhttpclientdemo.networking.retrofit.ApiService;
+import com.okhttpclientdemo.networking.retrofit.RetrofitClientInstance;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
 
 //  https://github.com/Karumi/Dexter
 public class MainActivity extends BaseActivity {
@@ -33,8 +55,7 @@ public class MainActivity extends BaseActivity {
 
         textView = findViewById(R.id.textview);
 
-
-
+        getUserName();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -42,6 +63,83 @@ public class MainActivity extends BaseActivity {
             }
 
         }).start();
+
+        callApifromRxJava();
+    }
+
+    @SuppressLint("CheckResult")
+    private void callApifromRxJava() {
+        ApiService cryptocurrencyService = RetrofitClientInstance.getRetrofitInstance().create(ApiService.class);
+
+        Observable<User> cryptoObservable = cryptocurrencyService.getCoinData("btc");
+        cryptoObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<User>() {
+                    @SuppressLint("CheckResult")
+                    @Override
+                    public void accept(User o) throws Exception {
+                        Log.e("accept",o.getId());
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
+                    }
+                });
+
+
+        //d We use the RxJava operator merge to do two retrofit calls one after the other.
+
+        Observable<User> btcObservable = cryptocurrencyService.getCoinData("btc");
+
+        Observable<User> ethObservable = cryptocurrencyService.getCoinData("eth");
+
+        Observable.merge(btcObservable, ethObservable)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleResults, this::handleError);
+
+       //d Transforming the Response
+      //d  To transform the POJO response we can do the following:
+
+
+/*        Observable<List<User>> btcObservable2 = cryptocurrencyService.getCoinData("btc")
+                .map(result -> Observable.fromIterable(result.getId()))
+                .flatMap(x -> x).filter(y -> {
+                    y = "btc";
+                    return true;
+                }).toList().toObservable();
+
+        Observable<List<Crypto.Market>> ethObservable2 = cryptocurrencyService.getCoinData("eth")
+                .map(result -> Observable.fromIterable(result.ticker.markets))
+                .flatMap(x -> x).filter(y -> {
+                    y.coinName = "eth";
+                    return true;
+                }).toList().toObservable();
+
+        Observable.merge(btcObservable, ethObservable)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::handleResults, this::handleError);*/
+    }
+
+    private void handleError(Throwable throwable) {
+        throwable.printStackTrace();
+    }
+
+    private void handleResults(User user) {
+        Log.e("handleResults",user.toString());
+    }
+
+
+    public Flowable<String> getUserName() {
+        return Injection.provideUserDataSource(this).getUser()
+                .map(new Function<User, String>() {
+                    @Override
+                    public String apply(User user) throws Exception {
+                        return user.getUserName();
+                    }
+                });
     }
 
     private JSONObject getJsonArray() {

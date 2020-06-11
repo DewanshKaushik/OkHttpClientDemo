@@ -65,9 +65,10 @@ public class FastAndroidNetworking {
     public void postUsingObject() {
 
 
-        User user = new User();
-        user.firstname = "Amit";
-        user.lastname = "Shekhar";
+        User user = new User("Amit");
+
+        user.setUserName("Amit");
+        user.setId("Shekhar");
 
         AndroidNetworking.post("https://fierce-cove-29863.herokuapp.com/createUser")
                 .addBodyParameter(user) // posting java object

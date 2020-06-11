@@ -18,7 +18,6 @@ import okhttp3.OkHttpClient;
 public class App extends Application {
 
 
-    private AppDatabase appDatabase;
     public RequestQueue requestQueue;
     private static App instance;
 
@@ -40,12 +39,6 @@ public class App extends Application {
 
         AndroidNetworking.initialize(getApplicationContext(), okHttpClient);
 
-        // initialize the db once during the app lifecycle
-        appDatabase = Room.databaseBuilder(
-                getApplicationContext(),
-                AppDatabase.class,
-                "person.db"
-        ).build();
 
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
@@ -53,14 +46,10 @@ public class App extends Application {
                 // insert into the database
                 Person person = new Person();
                 person.name = "Idorenyin Obong";
-                App.getInstance().provideDb().getPersonDao().insert(person);
             }
         });
     }
 
-    public AppDatabase provideDb() {
-        return appDatabase;
-    }
 
     public static App getInstance() {
         return instance;
