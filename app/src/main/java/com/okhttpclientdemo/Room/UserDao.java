@@ -7,8 +7,11 @@ import androidx.room.Query;
 
 import com.okhttpclientdemo.models.User;
 
+import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 
 @Dao
 public interface UserDao {
@@ -20,7 +23,7 @@ public interface UserDao {
      * @return the user from the table
      */
     @Query("SELECT * FROM User LIMIT 1")
-    Flowable<User> getUser();
+    Observable<List<User>> getUser();
 
     /**
      * Insert a user in the database. If the user already exists, replace it.

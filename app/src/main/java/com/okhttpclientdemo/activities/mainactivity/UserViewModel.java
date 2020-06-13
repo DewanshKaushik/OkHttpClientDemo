@@ -25,13 +25,8 @@ public class UserViewModel extends ViewModel {
      *
      * @return a {@link Flowable} that will emit every time the user name has been updated.
      */
-    public Flowable<String> getUserName() {
-        return mDataSource.getUser()
-                // for every emission of the user, get the user name
-                .map(user -> {
-                    mUser = user;
-                    return user.getUserName();
-                });
+    public void getUserName() {
+
 
     }
 
@@ -48,6 +43,5 @@ public class UserViewModel extends ViewModel {
         mUser = mUser == null
                 ? new User(userName)
                 : new User(mUser.getId(), userName);
-        mDataSource.insertOrUpdateUser(mUser);
     }
 }
