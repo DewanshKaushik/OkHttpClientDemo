@@ -2,6 +2,7 @@ package com.okhttpclientdemo.activities.mainactivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -31,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends BaseActivity {
 
     TextView textView;
-    GravityView  gravityView;
+    GravityView gravityView;
     ActivityMainBinding activityMainBinding;
     public DataManager dataManager;
 
@@ -40,6 +41,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        adView = activityMainBinding.adView;
 
         textView = findViewById(R.id.textview);
         dataManager = new DataManager(this);
@@ -74,6 +77,14 @@ public class MainActivity extends BaseActivity {
 
         callApifromRxJava();
         setGravityView();
+       // showBanner();
+        showNativeAds();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+               // showInterstitial();
+            }
+        }, 3000);
     }
 
 
@@ -116,11 +127,10 @@ public class MainActivity extends BaseActivity {
 
         Observable<User> ethObservable = cryptocurrencyService.getCoinData("eth");
 
-       Observable.merge(btcObservable, ethObservable)
+        Observable.merge(btcObservable, ethObservable)
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::handleResults, this::handleError);
-
 
 
         //d Transforming the Response
@@ -179,13 +189,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(gravityView.deviceSupported())
-        gravityView.registerListener();
+        if (gravityView.deviceSupported())
+            gravityView.registerListener();
     }
+
     @Override
     protected void onStop() {
         super.onStop();
-        if(gravityView.deviceSupported())
-        gravityView.unRegisterListener();
+        if (gravityView.deviceSupported())
+            gravityView.unRegisterListener();
     }
 }

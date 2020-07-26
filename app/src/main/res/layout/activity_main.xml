@@ -30,6 +30,7 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:scrollbars="none">
 
             <ImageView
@@ -37,5 +38,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp" />
         </HorizontalScrollView>
+
+        <com.google.android.gms.ads.AdView
+            xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/my_key"
+            >
+        </com.google.android.gms.ads.AdView>
+
     </LinearLayout>
 </layout>
