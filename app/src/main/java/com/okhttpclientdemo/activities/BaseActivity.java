@@ -1,5 +1,6 @@
 package com.okhttpclientdemo.activities;
 
+import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,17 +19,27 @@ import com.google.android.gms.ads.formats.NativeAdOptions;
 import com.google.android.gms.ads.formats.UnifiedNativeAd;
 import com.google.android.gms.ads.initialization.InitializationStatus;
 import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.okhttpclientdemo.R;
+
+import dmax.dialog.SpotsDialog;
 
 public class BaseActivity extends AppCompatActivity {
     String TAG = BaseActivity.class.getSimpleName();
 
     public AdView adView;
 
+    Dialog dialog;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadAds();
 
+        /*dialog = SpotsDialog.Builder()
+                .setContext(this)
+                .setMessage(R.string.custom_title)
+                .setTheme(R.style.Custom)
+                .build();*/
     }
 
     private void loadAds() {
@@ -88,7 +99,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showInterstitial() {
         InterstitialAd mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_adunitid));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
