@@ -61,36 +61,36 @@ public class BaseActivity extends AppCompatActivity {
         adView.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
-                Log.e("onAdLoaded", "onAdLoaded");
+                Log.e(TAG, "onAdLoaded");
             }
 
             @Override
             public void onAdFailedToLoad(int errorCode) {
-                Log.e("onAdFailedToLoad", "onAdFailedToLoad " + errorCode);
+                Log.e(TAG, "onAdFailedToLoad " + errorCode);
 
             }
 
             @Override
             public void onAdOpened() {
-                Log.e("onAdOpened", "onAdOpened");
+                Log.e(TAG, "onAdOpened");
 
             }
 
             @Override
             public void onAdClicked() {
-                Log.e("onAdClicked", "onAdClicked");
+                Log.e(TAG, "onAdClicked");
 
             }
 
             @Override
             public void onAdLeftApplication() {
-                Log.e("onAdLeftApplication", "onAdLeftApplication");
+                Log.e(TAG, "onAdLeftApplication");
 
             }
 
             @Override
             public void onAdClosed() {
-                Log.e("onAdClosed", "onAdClosed");
+                Log.e(TAG, "onAdClosed");
 
             }
         });
@@ -104,37 +104,37 @@ public class BaseActivity extends AppCompatActivity {
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdLoaded() {
-                Log.e("onAdLoaded", "onAdLoaded");
+                Log.e(TAG, "onAdLoaded");
                 mInterstitialAd.show();
             }
 
             @Override
             public void onAdFailedToLoad(int errorCode) {
-                Log.e("onAdFailedToLoad", "onAdFailedToLoad " + errorCode);
+                Log.e(TAG, "onAdFailedToLoad " + errorCode);
 
             }
 
             @Override
             public void onAdOpened() {
-                Log.e("onAdOpened", "onAdOpened");
+                Log.e(TAG, "onAdOpened");
 
             }
 
             @Override
             public void onAdClicked() {
-                Log.e("onAdClicked", "onAdClicked");
+                Log.e(TAG, "onAdClicked");
 
             }
 
             @Override
             public void onAdLeftApplication() {
-                Log.e("onAdLeftApplication", "onAdLeftApplication");
+                Log.e(TAG, "onAdLeftApplication");
 
             }
 
             @Override
             public void onAdClosed() {
-                Log.e("onAdClosed", "onAdClosed");
+                Log.e(TAG, "onAdClosed");
 
             }
         });
