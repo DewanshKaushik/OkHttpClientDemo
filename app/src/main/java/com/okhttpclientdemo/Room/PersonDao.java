@@ -18,6 +18,6 @@ public interface PersonDao {
     void delete(Person person);
 
     // Gets all people in the database
-    @Query("SELECT * FROM "+Person.TABLE_NAME)
+    @Query("SELECT * FROM " + Person.TABLE_NAME)
     List<Person> getAllPeople();
 }

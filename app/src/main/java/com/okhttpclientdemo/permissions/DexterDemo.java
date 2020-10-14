@@ -81,6 +81,14 @@ public class DexterDemo {
                 ).withListener(new MultiplePermissionsListener() {
             @Override public void onPermissionsChecked(MultiplePermissionsReport report) {/* ... */}
             @Override public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {/* ... */}
+        }) .withErrorListener(new PermissionRequestErrorListener() {
+            @Override
+            public void onError(DexterError dexterError) {
+                Log.e(
+                        "Dexter",
+                        "There was an error: $error"
+                );
+            }
         }).check();
 
         // 2
